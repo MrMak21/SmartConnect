@@ -35,10 +35,12 @@ class MainActivity : AppCompatActivity() {
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(SmartConnectApplication.get()))[MainViewModelImpl::class.java]
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("168238449623-7ls85bpa16ina2mh7i8nk42g5794r3mc.apps.googleusercontent.com")
             .requestEmail()
             .build()
 
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
         val account = GoogleSignIn.getLastSignedInAccount(this)
 
         binding.signInButton.setOnClickListener {
