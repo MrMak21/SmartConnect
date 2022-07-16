@@ -2,7 +2,9 @@ package gr.makris.smartconnect.retrofit
 
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,13 +13,27 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetworkClientFactory {
 
     private lateinit var retrofit: Retrofit
-    private const val BASE_URL = "https://home-automation-makris.herokuapp.com"
+    private const val BASE_URL = "http://10.0.2.2:7777/"
 
     @JvmStatic
     fun getRetrofitInstance(): ApiInterface {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYW5vc21hazM3QGdtYWlsLmNvbSIsImlzcyI6InNtYXJ0Q29ubmVjdFNlcnZlciIsImV4cCI6MTY1NzkyMjgwNn0.aJe4zYrovfUSJavj8eI1XgZbR2EaMNpmOwIHV7xtbVQ"
+
+        val tokenInterceptor = Interceptor { chain ->
+            val request = chain.request().newBuilder()
+                .addHeader("Authorization", "$token")
+                .addHeader("Content-Type:",  "application/json;charset=UTF-8")
+                .build()
+
+            chain.proceed(request)
+        }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .addInterceptor(tokenInterceptor)
+            .build()
 
         val gson = GsonBuilder()
             .setLenient()

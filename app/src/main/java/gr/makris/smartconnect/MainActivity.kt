@@ -47,6 +47,10 @@ class MainActivity : AppCompatActivity() {
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST)
         }
+
+        binding.getUsersBtn.setOnClickListener {
+            getUsers()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -70,5 +74,9 @@ class MainActivity : AppCompatActivity() {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
         }
+    }
+
+    fun getUsers() {
+        vm.getUsers()
     }
 }

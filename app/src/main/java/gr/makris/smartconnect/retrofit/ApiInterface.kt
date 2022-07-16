@@ -1,10 +1,11 @@
 package gr.makris.smartconnect.retrofit
 
 
+import gr.makris.smartconnect.response.users.GetUsersResponse
 import retrofit2.http.GET
 
 interface ApiInterface {
 
-//    @GET("/openDoor")
-//    suspend fun openDoorAsync(): DoorResponse
+    @GET("api/smartConnect/getUsers")
+    suspend fun getUsersAsync(): GetUsersResponse
 }
