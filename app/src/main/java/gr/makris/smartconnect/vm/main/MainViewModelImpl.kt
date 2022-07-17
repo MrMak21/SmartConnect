@@ -20,7 +20,7 @@ class MainViewModelImpl(application: Application): BaseViewModel(application) , 
             getUsersResponse.data?.let {
                 Timber.d(it.users.toString())
             } ?: getUsersResponse.error.let { error ->
-                Timber.d(error)
+                Timber.d(error.toString())
             }
         }
     }

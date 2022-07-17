@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.annotation.UiThread
 import androidx.lifecycle.AndroidViewModel
 import gr.makris.smartconnect.model.common.DataResult
+import gr.makris.smartconnect.model.common.DataResultErrorModel
+import gr.makris.smartconnect.model.common.ErrorModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,7 +17,7 @@ abstract class BaseViewModel(application: Application): AndroidViewModel(applica
     val bgDispatcherNonPausable: CoroutineDispatcher = Dispatchers.IO
 
     @UiThread
-    suspend fun <T, E : Throwable> executeNetworkCall(
+    suspend fun <T, E : ErrorModel> executeNetworkCall(
         handleLoading: Boolean = false,
         isPausable: Boolean = true,
         networkCall: suspend () -> DataResult<T, E>
@@ -25,4 +27,5 @@ abstract class BaseViewModel(application: Application): AndroidViewModel(applica
         val bgDispatcher = if (isPausable) bgDispatcher else bgDispatcherNonPausable
         return withContext(bgDispatcher) { networkCall() }
     }
+
 }

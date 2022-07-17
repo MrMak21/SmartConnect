@@ -8,6 +8,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 
 object NetworkClientFactory {
@@ -20,7 +21,7 @@ object NetworkClientFactory {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYW5vc21hazM3QGdtYWlsLmNvbSIsImlzcyI6InNtYXJ0Q29ubmVjdFNlcnZlciIsImV4cCI6MTY1NzkyMjgwNn0.aJe4zYrovfUSJavj8eI1XgZbR2EaMNpmOwIHV7xtbVQ"
+        val token = "testeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYW5vc21hazM3QGdtYWlsLmNvbSIsImlzcyI6InNtYXJ0Q29ubmVjdFNlcnZlciIsImV4cCI6MTY1ODA3NzEwNH0.4H9W3Y7ZGDykX54XrCFVJWIviphoXvpwNDSwa2tg2IE"
 
         val tokenInterceptor = Interceptor { chain ->
             val request = chain.request().newBuilder()
@@ -33,6 +34,9 @@ object NetworkClientFactory {
         val client = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .addInterceptor(tokenInterceptor)
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
             .build()
 
         val gson = GsonBuilder()
