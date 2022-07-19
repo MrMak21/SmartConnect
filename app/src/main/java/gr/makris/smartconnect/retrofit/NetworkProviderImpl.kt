@@ -3,11 +3,13 @@ package gr.makris.smartconnect.retrofit
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import gr.makris.smartconnect.extensions.network.getResponseString
+import gr.makris.smartconnect.mapper.user.toUsersListModel
 import gr.makris.smartconnect.model.common.DataResult
 import gr.makris.smartconnect.model.common.DataResultErrorModel
 import gr.makris.smartconnect.model.common.Model
 import gr.makris.smartconnect.model.common.SmartConnectErrorModel
 import gr.makris.smartconnect.model.error.CommonResponse
+import gr.makris.smartconnect.model.users.UserModel
 import gr.makris.smartconnect.response.users.GetUsersResponse
 import gr.makris.smartconnect.retrofit.NetworkClientFactory.getRetrofitInstance
 import timber.log.Timber
@@ -16,10 +18,10 @@ class NetworkProviderImpl: NetworkProvider {
 
     private val smartConnectApi: ApiInterface = getRetrofitInstance()
 
-    override suspend fun getUsersAsync(): DataResult<GetUsersResponse, SmartConnectErrorModel> {
+    override suspend fun getUsersAsync(): DataResult<List<UserModel>, SmartConnectErrorModel> {
         return try {
             val response = smartConnectApi.getUsersAsync()
-            DataResult(response)
+            DataResult(response.toUsersListModel())
         } catch (t: Throwable) {
             Timber.d(t)
             DataResult(error = getErrorModel(t))

@@ -1,6 +1,8 @@
 package gr.makris.smartconnect.application
 
 import android.app.Application
+import gr.makris.smartconnect.provider.sharedPreferences.DefaultSharedPreferencesProvider
+import gr.makris.smartconnect.provider.sharedPreferences.SharedPreferencesProvider
 import gr.makris.smartconnect.retrofit.NetworkProvider
 import gr.makris.smartconnect.retrofit.NetworkProviderImpl
 
@@ -17,6 +19,10 @@ class SmartConnectApplication : Application() {
 
     val networkProvider: NetworkProvider by lazy {
         return@lazy NetworkProviderImpl()
+    }
+
+    val sharedPreferencesProvider: SharedPreferencesProvider by lazy {
+        return@lazy DefaultSharedPreferencesProvider(this).apply { init() }
     }
 
     override fun onCreate() {

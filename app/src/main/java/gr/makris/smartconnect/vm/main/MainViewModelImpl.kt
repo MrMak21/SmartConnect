@@ -18,7 +18,7 @@ class MainViewModelImpl(application: Application): BaseViewModel(application) , 
             }
 
             getUsersResponse.data?.let {
-                Timber.d(it.users.toString())
+                Timber.d(it.toString())
             } ?: getUsersResponse.error.let { error ->
                 Timber.d(error.toString())
             }
