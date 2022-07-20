@@ -33,14 +33,16 @@ object NetworkClientFactory {
                 request.addHeader("Authorization", "Bearer $token")
             }
 
-            request.addHeader("Content-Type:", "application/json;charset=UTF-8")
+//            request.addHeader("Content-Type:", "application/json;charset=UTF-8")
+            request.addHeader("Content-Type", "application/json")
+            request.addHeader("Accept", " application/json")
 
 
             chain.proceed(request.build())
         }
         val client = OkHttpClient.Builder()
-            .addInterceptor(interceptor)
             .addInterceptor(tokenInterceptor)
+            .addInterceptor(interceptor)
             .connectTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)

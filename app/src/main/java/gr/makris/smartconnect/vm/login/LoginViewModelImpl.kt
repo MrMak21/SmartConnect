@@ -4,6 +4,7 @@ import android.app.Application
 import gr.makris.smartconnect.application.SmartConnectApplication
 import gr.makris.smartconnect.interactor.login.LoginInteractor
 import gr.makris.smartconnect.interactor.login.LoginInteractorImpl
+import gr.makris.smartconnect.requests.login.LoginUserRequestBody
 
 import gr.makris.smartconnect.vm.base.BaseViewModel
 import kotlinx.coroutines.GlobalScope
@@ -18,12 +19,17 @@ class LoginViewModelImpl(
 
     override fun getUsersAsync() {
         GlobalScope.launch {
+
+            val loginUserRequestsBody = LoginUserRequestBody("panosmak37@gmail.com", "123456")
+
             val response = executeNetworkCall {
-                interactor.getUsersAsync()
+                interactor.loginUserAsync(loginUserRequestsBody)
             }
 
-            response.error?.let {
-                Timber.d(it.errorMessage)
+            response.data?.let {
+                Timber.d(it.accessToken)
+            } ?: response.error.let {
+                Timber.d(it?.errorMessage)
             }
         }
     }
