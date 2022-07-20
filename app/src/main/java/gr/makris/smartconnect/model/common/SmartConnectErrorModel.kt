@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 data class SmartConnectErrorModel(
     private val status: String? = Model.INVALID_STRING,
     private val errorCode : String = Model.INVALID_STRING,
-    private val errorMessage: String = Model.INVALID_STRING,
+    val errorMessage: String = Model.INVALID_STRING,
     private val throwable: Throwable = Exception(),
 ): ErrorModel {
 

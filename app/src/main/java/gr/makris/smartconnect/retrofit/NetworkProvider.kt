@@ -9,7 +9,7 @@ import gr.makris.smartconnect.response.users.GetUsersResponse
 
 interface NetworkProvider {
 
-    suspend fun getUsersAsync(): DataResult<List<UserModel>, SmartConnectErrorModel>
+    suspend fun getUsersAsync(): GetUsersResponse
 
 
 }
