@@ -2,6 +2,8 @@ package gr.makris.smartconnect.ui.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import gr.makris.smartconnect.application.SmartConnectApplication
 import gr.makris.smartconnect.databinding.ActivityLoginBinding
@@ -29,11 +31,26 @@ class LoginActivity : BaseActivity() {
         vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(
             SmartConnectApplication.get()))[LoginViewModelImpl::class.java]
 
-//        vm = ViewModelProvider(this, CustomViewModelFactory(
-//            SmartConnectApplication.get(), LoginInteractorImpl(SmartConnectApplication.get().networkProvider)
-//        ))[LoginViewModelImpl::class.java]
 
-        vm.getUsersAsync()
+        initLayout()
+        initObservers()
+    }
 
+    private fun initLayout() {
+        binding.loginBtn.setOnClickListener {
+            vm.loginUser(binding.emailInput.text.toString(), binding.passwordInput.text.toString())
+        }
+
+        binding.getUsersBtn.setOnClickListener {
+            vm.getUsersAsync()
+        }
+    }
+
+    private fun initObservers() {
+        val loadingObserver = Observer<Boolean> {
+            binding.loadingView.visibility = if (it) View.VISIBLE else View.GONE
+        }
+
+        vm.loadingViewLiveData.observe(this, loadingObserver)
     }
 }

@@ -6,15 +6,16 @@ import androidx.lifecycle.AndroidViewModel
 import gr.makris.smartconnect.model.common.DataResult
 import gr.makris.smartconnect.model.common.DataResultErrorModel
 import gr.makris.smartconnect.model.common.ErrorModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 abstract class BaseViewModel(application: Application): AndroidViewModel(application) {
 
     var uiDispatcher: CoroutineDispatcher = Dispatchers.Main
     var bgDispatcher: CoroutineDispatcher = Dispatchers.IO
     val bgDispatcherNonPausable: CoroutineDispatcher = Dispatchers.IO
+
+    protected var job = SupervisorJob()
+    protected var uiScope = CoroutineScope(Dispatchers.Main + job)
 
     @UiThread
     suspend fun <T, E : ErrorModel> executeNetworkCall(
