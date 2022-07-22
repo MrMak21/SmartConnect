@@ -2,11 +2,10 @@ package gr.makris.smartconnect.retrofit
 
 
 import gr.makris.smartconnect.requests.login.LoginUserRequestBody
+import gr.makris.smartconnect.response.authToken.RefreshTokenResponse
 import gr.makris.smartconnect.response.users.GetUsersResponse
 import gr.makris.smartconnect.response.users.LoginUserResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiInterface {
 
@@ -15,4 +14,7 @@ interface ApiInterface {
 
     @POST("api/smartConnect/loginUser")
     suspend fun login(@Body loginUserRequestBody: LoginUserRequestBody): LoginUserResponse
+
+    @GET("api/smartConnect/refreshAccessToken")
+    suspend fun refreshAccessToken(@Query("refreshToken") refreshToken: String): RefreshTokenResponse
 }

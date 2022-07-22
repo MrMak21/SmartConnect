@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName
 import gr.makris.smartconnect.model.common.Model
 
 open class SmartConnectResponse(
-//    @SerializedName("error")
-//    val status: String? = Model.INVALID_STRING,
-
     @SerializedName("timestamp")
     val timestamp: String = Model.INVALID_STRING,
 
