@@ -3,12 +3,8 @@ package gr.makris.smartconnect.retrofit
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import gr.makris.smartconnect.application.SmartConnectApplication
-import gr.makris.smartconnect.mapper.user.toLoginUserModel
 import gr.makris.smartconnect.model.Definitions
-import gr.makris.smartconnect.model.common.DataResult
-import gr.makris.smartconnect.model.common.DataResultErrorModel
 import gr.makris.smartconnect.model.common.DataResultThrowable
-import gr.makris.smartconnect.model.common.ErrorModel
 import gr.makris.smartconnect.response.authToken.RefreshTokenResponse
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
@@ -21,18 +17,15 @@ import java.util.concurrent.TimeUnit
 
 object NetworkClientFactory {
 
-    private lateinit var retrofit: Retrofit
-    private const val BASE_URL = "http://10.0.2.2:7777/"
     private val sharedPrefsProvider = SmartConnectApplication.get().sharedPreferencesProvider
 
     @JvmStatic
-    fun getRetrofitInstance(): ApiInterface {
+    fun getSmartConnectAuthenticatedApi(): SmartConnectApi {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val token = sharedPrefsProvider.getString(Definitions.ACCESS_TOKEN_PREFERENCES, "")
-
         val tokenInterceptor = Interceptor { chain ->
+            val token = sharedPrefsProvider.getString(Definitions.ACCESS_TOKEN_PREFERENCES, "")
             val request = chain.request().newBuilder()
             if (!token.isNullOrBlank()) {
                 request.addHeader("Authorization", "Bearer $token")
@@ -60,7 +53,7 @@ object NetworkClientFactory {
                         sharedPrefsProvider.putString(Definitions.REFRESH_TOKEN_PREFERENCES, it.refreshToken)
                         val token = sharedPrefsProvider.getString(Definitions.ACCESS_TOKEN_PREFERENCES, "") ?: ""
 
-                        response.request.newBuilder().header("Authorization", token).build()
+                        response.request.newBuilder().header("Authorization", "Bearer $token").build()
                     } ?: refreshTokenResponse.error.let {
                         Timber.d(it?.message)
 
@@ -83,13 +76,45 @@ object NetworkClientFactory {
             .setLenient()
             .create()
 
-        retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+        return Retrofit.Builder()
+            .baseUrl(Definitions.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(client)
             .build()
+            .create(SmartConnectApi::class.java)
+    }
 
-        return retrofit.create(ApiInterface::class.java)
+    @JvmStatic
+    fun getSmartConnectApi(): SmartConnectApi {
+        val loggingInterceptor = HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
+
+        val headersInterceptor = Interceptor { chain ->
+            val request = chain.request().newBuilder()
+            request.addHeader("Content-Type", "application/json")
+            request.addHeader("Accept", " application/json")
+            chain.proceed(request.build())
+        }
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(headersInterceptor)
+            .addInterceptor(loggingInterceptor)
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .build()
+
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+
+        return  Retrofit.Builder()
+            .baseUrl(Definitions.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .client(client)
+            .build()
+            .create(SmartConnectApi::class.java)
     }
 }

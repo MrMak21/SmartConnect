@@ -7,7 +7,7 @@ import gr.makris.smartconnect.response.users.GetUsersResponse
 import gr.makris.smartconnect.response.users.LoginUserResponse
 import retrofit2.http.*
 
-interface ApiInterface {
+interface SmartConnectApi {
 
     @GET("api/smartConnect/getUsers")
     suspend fun getUsersAsync(): GetUsersResponse
