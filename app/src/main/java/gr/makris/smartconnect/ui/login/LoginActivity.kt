@@ -1,10 +1,17 @@
 package gr.makris.smartconnect.ui.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import gr.makris.smartconnect.application.SmartConnectApplication
 import gr.makris.smartconnect.databinding.ActivityLoginBinding
 import gr.makris.smartconnect.databinding.ActivityMainBinding
@@ -21,6 +28,8 @@ class LoginActivity : BaseActivity() {
 
     lateinit var binding: ActivityLoginBinding
     private lateinit var vm: LoginViewModel
+
+    private val GOOGLE_SIGN_IN_REQUEST = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +53,10 @@ class LoginActivity : BaseActivity() {
         binding.getUsersBtn.setOnClickListener {
             vm.getUsersAsync()
         }
+
+        binding.signInButton.setOnClickListener {
+            googleSignIn()
+        }
     }
 
     private fun initObservers() {
@@ -52,5 +65,36 @@ class LoginActivity : BaseActivity() {
         }
 
         vm.loadingViewLiveData.observe(this, loadingObserver)
+    }
+
+    private fun googleSignIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("168238449623-7ls85bpa16ina2mh7i8nk42g5794r3mc.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        val signInIntent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GOOGLE_SIGN_IN_REQUEST) {
+            // The Task returned from this call is always completed, no need to attach a listener.
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            account
+        } catch (e: ApiException) {
+            Timber.d("TAG", "signInResult:failed code=" + e.statusCode)
+        }
     }
 }

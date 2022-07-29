@@ -14,6 +14,7 @@ class LauncherViewModelImpl(
 
     private val interactor = LauncherInteractorImpl(SmartConnectApplication.get().networkProvider)
     override val loadingViewLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    override val goToNextScreenLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
 
     override fun serverCheck() {
         uiScope.launch {
@@ -25,6 +26,7 @@ class LauncherViewModelImpl(
 
             serverCheckResponse.data?.let {
                 Timber.d(it.serverName)
+                goToNextScreenLiveData.postValue(true)
             } ?: serverCheckResponse.error.let {
                 Timber.d(it?.errorMessage)
             }

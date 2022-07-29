@@ -1,5 +1,6 @@
 package gr.makris.smartconnect.ui.launcher
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -9,6 +10,7 @@ import gr.makris.smartconnect.application.SmartConnectApplication
 import gr.makris.smartconnect.databinding.ActivityLauncherBinding
 import gr.makris.smartconnect.databinding.ActivityLoginBinding
 import gr.makris.smartconnect.ui.base.BaseActivity
+import gr.makris.smartconnect.ui.login.LoginActivity
 import gr.makris.smartconnect.vm.launcher.LauncherViewModel
 import gr.makris.smartconnect.vm.launcher.LauncherViewModelImpl
 import gr.makris.smartconnect.vm.login.LoginViewModel
@@ -25,8 +27,11 @@ class LauncherActivity : BaseActivity() {
         binding = ActivityLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        vm = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(
-            SmartConnectApplication.get()))[LauncherViewModelImpl::class.java]
+        vm = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory(
+                SmartConnectApplication.get()
+            )
+        )[LauncherViewModelImpl::class.java]
 
 
         initLayout()
@@ -42,6 +47,13 @@ class LauncherActivity : BaseActivity() {
             binding.loadingView.visibility = if (it) View.VISIBLE else View.GONE
         }
 
+        val nextScreenObserver = Observer<Boolean> {
+            val loginIntent = Intent(this, LoginActivity::class.java)
+            loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            if (it) startActivitySlideUp(loginIntent)
+        }
+
         vm.loadingViewLiveData.observe(this, loadingObserver)
+        vm.loadingViewLiveData.observe(this, nextScreenObserver)
     }
 }
