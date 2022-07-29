@@ -2,6 +2,7 @@ package gr.makris.smartconnect.application
 
 import android.app.Application
 import gr.makris.smartconnect.BuildConfig
+import gr.makris.smartconnect.common.delegates.DialogDelegate
 import gr.makris.smartconnect.provider.sharedPreferences.DefaultSharedPreferencesProvider
 import gr.makris.smartconnect.provider.sharedPreferences.SharedPreferencesProvider
 import gr.makris.smartconnect.retrofit.NetworkProvider
@@ -26,6 +27,7 @@ class SmartConnectApplication : Application() {
     val sharedPreferencesProvider: SharedPreferencesProvider by lazy {
         return@lazy DefaultSharedPreferencesProvider(this).apply { init() }
     }
+
 
     override fun onCreate() {
         super.onCreate()

@@ -57,6 +57,8 @@ class LoginActivity : BaseActivity() {
         binding.signInButton.setOnClickListener {
             googleSignIn()
         }
+
+        dialogDelegate.showDialog(contentText = "Hello smart connect")
     }
 
     private fun initObservers() {

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="common_zero_dp">0dp</dimen>
+    <dimen name="common_zero_point_six_dp">0.6dp</dimen>
+    <dimen name="common_one_dp">1dp</dimen>
+    <dimen name="common_one_point_two_dp">1.2dp</dimen>
+    <dimen name="common_two_dp">2dp</dimen>
+    <dimen name="common_three_dp">3dp</dimen>
+    <dimen name="common_four_dp">4dp</dimen>
+    <dimen name="common_six_dp">6dp</dimen>
+    <dimen name="common_seven_dp">7dp</dimen>
+    <dimen name="common_eight_dp">8dp</dimen>
+    <dimen name="common_ten_dp">10dp</dimen>
+    <dimen name="common_twelve_dp">12dp</dimen>
+    <dimen name="common_fourteen_dp">14dp</dimen>
+    <dimen name="common_sixteen_dp">16dp</dimen>
+    <dimen name="common_eighteen_dp">18dp</dimen>
+    <dimen name="common_twenty_dp">20dp</dimen>
+    <dimen name="common_twenty_two_dp">22dp</dimen>
+    <dimen name="common_twenty_four_dp">24dp</dimen>
+    <dimen name="common_twenty_five_dp">25dp</dimen>
+    <dimen name="common_twenty_eight_dp">28dp</dimen>
+    <dimen name="common_thirty_dp">30dp</dimen>
+    <dimen name="common_thirty_two_dp">32dp</dimen>
+    <dimen name="common_thirty_four_dp">34dp</dimen>
+    <dimen name="common_thirty_six_dp">36dp</dimen>
+    <dimen name="common_thirty_eight_dp">36dp</dimen>
+    <dimen name="common_twenty_six_dp">26dp</dimen>
+    <dimen name="common_forty_dp">40dp</dimen>
+    <dimen name="common_forty_two_dp">42dp</dimen>
+    <dimen name="common_forty_four_dp">44dp</dimen>
+    <dimen name="common_forty_six_dp">46dp</dimen>
+    <dimen name="common_forty_seven_dp">47dp</dimen>
+    <dimen name="common_forty_eight_dp">48dp</dimen>
+    <dimen name="common_fifty_dp">50dp</dimen>
+    <dimen name="common_fifty_three_dp">53dp</dimen>
+    <dimen name="common_fifty_four_dp">54dp</dimen>
+    <dimen name="common_fifty_six_dp">56dp</dimen>
+    <dimen name="common_sixty_dp">60dp</dimen>
+    <dimen name="common_seventy_dp">70dp</dimen>
+    <dimen name="common_seventy_two_dp">72dp</dimen>
+    <dimen name="common_seventy_six_dp">76dp</dimen>
+    <dimen name="common_eighty_dp">80dp</dimen>
+    <dimen name="common_eighty_two_dp">82dp</dimen>
+    <dimen name="common_ninety_dp">90dp</dimen>
+    <dimen name="common_ninety_six_dp">96dp</dimen>
+    <dimen name="common_one_hundred_dp">100dp</dimen>
+    <dimen name="common_one_hundred_ten_dp">110dp</dimen>
+    <dimen name="common_one_hundred_fourteen_dp">114dp</dimen>
+    <dimen name="common_one_hundred_fifteen_dp">115dp</dimen>
+    <dimen name="common_one_hundred_twenty_dp">120dp</dimen>
+    <dimen name="common_one_hundred_fifty_dp">150dp</dimen>
+    <dimen name="common_one_hundred_thirty_dp">130dp</dimen>
+    <dimen name="common_one_hundred_sixty_dp">160dp</dimen>
+    <dimen name="common_one_hundred_seventy_dp">170dp</dimen>
+    <dimen name="common_one_hundred_eighty_dp">180dp</dimen>
+    <dimen name="common_one_hundred_eighty__four_dp">184dp</dimen>
+    <dimen name="common_two_hundred_dp">200dp</dimen>
+    <dimen name="common_two_hundred_twenty_dp">220dp</dimen>
+
+
+    <!-- Common Text Scale-independent Pixels -->
+    <dimen name="common_text_two_sp">2sp</dimen>
+    <dimen name="common_text_ten_sp">10sp</dimen>
+    <dimen name="common_text_twelve_sp">12sp</dimen>
+    <dimen name="common_text_fourteen_sp">14sp</dimen>
+    <dimen name="common_text_sixteen_sp">16sp</dimen>
+    <dimen name="common_text_eighteen_sp">18sp</dimen>
+    <dimen name="common_text_twenty_sp">20sp</dimen>
+    <dimen name="common_text_twenty_two_sp">22sp</dimen>
+    <dimen name="common_text_twenty_four_sp">24sp</dimen>
+    <dimen name="common_text_twenty_six_sp">26sp</dimen>
+    <dimen name="common_text_thirty_sp">30sp</dimen>
+    <dimen name="common_text_thirty_two_sp">32sp</dimen>
+    <dimen name="common_text_thirty_four_sp">34sp</dimen>
+    <dimen name="common_text_thirty_six_sp">36sp</dimen>
+    <dimen name="common_text_thirty_eight_sp">38sp</dimen>
+    <dimen name="common_text_forty_six_sp">46sp</dimen>
+    <dimen name="common_text_forty_eight_sp">48sp</dimen>
+    <dimen name="common_text_fifty_sp">50sp</dimen>
+    <dimen name="common_text_sixty_four_sp">64sp</dimen>
+    <dimen name="common_text_sixty_sp">60sp</dimen>
+    <dimen name="common_text_seventy_sp">70sp</dimen>
+
+    <!-- Common Margins-->
+    <dimen name="margin_common_zero">0dp</dimen>
+    <dimen name="margin_common_constraint_smallest">4dp</dimen>
+    <dimen name="margin_common_constraint_small">8dp</dimen>
+    <dimen name="margin_common_constraint">16dp</dimen>
+    <dimen name="margin_common_constraint_larger">24dp</dimen>
+    <dimen name="margin_common_constraint_largest">32dp</dimen>
+
+    <!-- Dialog -->
+    <dimen name="dialog_button_height">70dp</dimen>
+
+
+</resources>
