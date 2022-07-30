@@ -53,7 +53,12 @@ class LauncherActivity : BaseActivity() {
             if (it) startActivitySlideUp(loginIntent)
         }
 
+        val errorObserver = Observer<String> {
+            dialogDelegate.showDialog(contentText = it)
+        }
+
         vm.loadingViewLiveData.observe(this, loadingObserver)
-        vm.loadingViewLiveData.observe(this, nextScreenObserver)
+        vm.goToNextScreenLiveData.observe(this, nextScreenObserver)
+        vm.errorLiveData.observe(this, errorObserver)
     }
 }
