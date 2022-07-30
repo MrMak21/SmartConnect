@@ -12,10 +12,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import gr.makris.smartconnect.MainActivity
 import gr.makris.smartconnect.application.SmartConnectApplication
 import gr.makris.smartconnect.databinding.ActivityLoginBinding
 import gr.makris.smartconnect.databinding.ActivityMainBinding
 import gr.makris.smartconnect.interactor.login.LoginInteractorImpl
+import gr.makris.smartconnect.model.Definitions.LOGIN_USER_MODEL_PARCELABLE
+import gr.makris.smartconnect.model.users.LoginUserModel
 import gr.makris.smartconnect.ui.base.BaseActivity
 import gr.makris.smartconnect.vm.factory.CustomViewModelFactory
 import gr.makris.smartconnect.vm.login.LoginViewModel
@@ -58,7 +61,14 @@ class LoginActivity : BaseActivity() {
             googleSignIn()
         }
 
-        dialogDelegate.showDialog(contentText = "Hello smart connect")
+        dialogDelegate.showDialog(
+            title = "Error" ,
+            contentText = "Hello smart connect",
+            mainButtonText = "OK",
+            mainButtonCallBack = {
+                it.dismiss()
+            }
+        )
     }
 
     private fun initObservers() {
@@ -66,7 +76,17 @@ class LoginActivity : BaseActivity() {
             binding.loadingView.visibility = if (it) View.VISIBLE else View.GONE
         }
 
+        val userLoginObserver = Observer<LoginUserModel> {
+            goToMainActivity(it)
+        }
+
+        val errorObserver = Observer<String> {
+            dialogDelegate.showDialog(contentText = it)
+        }
+
         vm.loadingViewLiveData.observe(this, loadingObserver)
+        vm.loginUserLiveData.observe(this, userLoginObserver)
+        vm.errorLiveData.observe(this, errorObserver)
     }
 
     private fun googleSignIn() {
@@ -94,9 +114,20 @@ class LoginActivity : BaseActivity() {
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            account
+            account.idToken?.let {
+                vm.loginGoogleUser(it)
+            }
         } catch (e: ApiException) {
-            Timber.d("TAG", "signInResult:failed code=" + e.statusCode)
+            Timber.d("signInResult:failed code=" + e.statusCode)
         }
+    }
+
+    private fun goToMainActivity(loginUserModel: LoginUserModel) {
+        val intent  = Intent(this, MainActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable(LOGIN_USER_MODEL_PARCELABLE, loginUserModel)
+        intent.putExtras(bundle)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivitySlideUp(intent)
     }
 }

@@ -16,6 +16,9 @@ interface SmartConnectApi {
     @POST("api/smartConnect/loginUser")
     suspend fun login(@Body loginUserRequestBody: LoginUserRequestBody): LoginUserResponse
 
+    @GET("api/smartConnect/googleLoginUser")
+    suspend fun loginGoogleUserAsync(@Query("idToken") idToken: String): LoginUserResponse
+
     @GET("api/smartConnect/refreshAccessToken")
     suspend fun refreshAccessToken(@Query("refreshToken") refreshToken: String): RefreshTokenResponse
 

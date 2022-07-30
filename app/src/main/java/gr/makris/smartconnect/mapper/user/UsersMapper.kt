@@ -1,5 +1,6 @@
 package gr.makris.smartconnect.mapper.user
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import gr.makris.smartconnect.data.user.User
 import gr.makris.smartconnect.model.users.LoginUserModel
 import gr.makris.smartconnect.model.users.UserModel
@@ -29,3 +30,9 @@ fun LoginUserResponse.toLoginUserModel(): LoginUserModel {
         refreshToken = this.refreshToken
     )
 }
+
+//fun GoogleSignInAccount.toLoginUserModel(): LoginUserModel {
+//    return LoginUserModel(
+//
+//    )
+//}

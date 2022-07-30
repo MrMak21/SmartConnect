@@ -17,6 +17,8 @@ interface NetworkProvider {
 
     suspend fun loginUserAsync(loginUserRequestBody: LoginUserRequestBody): LoginUserResponse
 
+    suspend fun loginGoogleUserAsync(idToken: String): LoginUserResponse
+
     suspend fun refreshAccessToken(refreshToken: String): RefreshTokenResponse
 
     suspend fun serverCheck(): ServerCheckResponse

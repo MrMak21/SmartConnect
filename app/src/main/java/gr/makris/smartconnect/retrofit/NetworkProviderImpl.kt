@@ -21,6 +21,10 @@ class NetworkProviderImpl: NetworkProvider {
         return smartConnectApi.login(loginUserRequestBody)
     }
 
+    override suspend fun loginGoogleUserAsync(idToken: String): LoginUserResponse {
+        return smartConnectApi.loginGoogleUserAsync(idToken)
+    }
+
     override suspend fun refreshAccessToken(refreshToken: String): RefreshTokenResponse {
         return smartConnectApi.refreshAccessToken(refreshToken)
     }

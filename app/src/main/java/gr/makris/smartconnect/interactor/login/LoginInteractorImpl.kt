@@ -35,4 +35,14 @@ class LoginInteractorImpl(
             DataResult(error = getErrorModel(t))
         }
     }
+
+    override suspend fun loginGoogleUser(idToken: String): DataResult<LoginUserModel, SmartConnectErrorModel> {
+        return try {
+            val response = networkProvider.loginGoogleUserAsync(idToken)
+            DataResult(response.toLoginUserModel())
+        } catch (t: Throwable) {
+            Timber.d(t)
+            DataResult(error = getErrorModel(t))
+        }
+    }
 }

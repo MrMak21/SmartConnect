@@ -11,4 +11,5 @@ interface LoginInteractor {
 
     suspend fun getUsersAsync(): DataResult<List<UserModel>, SmartConnectErrorModel>
     suspend fun loginUserAsync(loginUserRequestBody: LoginUserRequestBody): DataResult<LoginUserModel, SmartConnectErrorModel>
+    suspend fun loginGoogleUser(idToken: String): DataResult<LoginUserModel, SmartConnectErrorModel>
 }

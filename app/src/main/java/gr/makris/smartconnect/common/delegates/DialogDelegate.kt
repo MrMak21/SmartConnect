@@ -81,7 +81,7 @@ class DialogDelegate(private val baseActivity: BaseActivity) {
         }
     }
 
-    private fun dismiss() {
+    fun dismiss() {
         dialog?.dismiss()
     }
 
