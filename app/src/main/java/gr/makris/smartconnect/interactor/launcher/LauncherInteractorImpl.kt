@@ -7,6 +7,8 @@ import gr.makris.smartconnect.model.common.DataResult
 import gr.makris.smartconnect.model.common.ErrorModel
 import gr.makris.smartconnect.model.common.SmartConnectErrorModel
 import gr.makris.smartconnect.model.serverCheck.ServerCheckModel
+import gr.makris.smartconnect.model.users.LoginUserModel
+import gr.makris.smartconnect.requests.login.LoginUserRequestBody
 import gr.makris.smartconnect.retrofit.NetworkProvider
 import timber.log.Timber
 
@@ -18,6 +20,16 @@ class LauncherInteractorImpl(
         return try {
             val response = networkProvider.serverCheck()
             DataResult(response.toServerCheckModel())
+        } catch (t: Throwable) {
+            Timber.d(t)
+            DataResult(error = getErrorModel(t))
+        }
+    }
+
+    override suspend fun silentLoginUserAsync(loginUserRequestBody: LoginUserRequestBody): DataResult<LoginUserModel, SmartConnectErrorModel> {
+        return try {
+            val response = networkProvider.silentLoginUserAsync(loginUserRequestBody)
+            DataResult(response.toLoginUserModel())
         } catch (t: Throwable) {
             Timber.d(t)
             DataResult(error = getErrorModel(t))

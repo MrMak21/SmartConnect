@@ -37,10 +37,7 @@ class LoginViewModelImpl(
             }
 
             response.data?.let {
-                Timber.d(it.accessToken)
-                sharedPrefsProvider.putString(Definitions.ACCESS_TOKEN_PREFERENCES, it.accessToken)
-                sharedPrefsProvider.putString(Definitions.REFRESH_TOKEN_PREFERENCES, it.refreshToken)
-                loginUserLiveData.postValue(it)
+                handleSuccessfulSignIn(it)
                 loadingViewLiveData.postValue(false)
             } ?: response.error.let {
                 Timber.d(it?.errorMessage)
@@ -76,15 +73,21 @@ class LoginViewModelImpl(
             }
 
             googleLoginResponse.data?.let {
-                sharedPrefsProvider.putString(Definitions.ACCESS_TOKEN_PREFERENCES, it.accessToken)
-                sharedPrefsProvider.putString(Definitions.REFRESH_TOKEN_PREFERENCES, it.refreshToken)
-                loginUserLiveData.postValue(it)
+                handleSuccessfulSignIn(it)
             } ?: googleLoginResponse.error?.let {
                 Timber.d(it.errorMessage)
                 errorLiveData.postValue(it.errorMessage)
             }
             loadingViewLiveData.postValue(false)
         }
+    }
+
+    private fun handleSuccessfulSignIn(userLoginModel: LoginUserModel) {
+        sharedPrefsProvider.putString(Definitions.ACCESS_TOKEN_PREFERENCES, userLoginModel.accessToken)
+        sharedPrefsProvider.putString(Definitions.REFRESH_TOKEN_PREFERENCES, userLoginModel.refreshToken)
+        sharedPrefsProvider.putString(Definitions.LOGIN_USER_EMAIL, userLoginModel.user.email)
+        sharedPrefsProvider.putString(Definitions.LOGIN_USER_PASSWORD, userLoginModel.user.password)
+        loginUserLiveData.postValue(userLoginModel)
     }
 
 
