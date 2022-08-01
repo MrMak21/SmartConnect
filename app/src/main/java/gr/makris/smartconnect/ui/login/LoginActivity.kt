@@ -53,22 +53,14 @@ class LoginActivity : BaseActivity() {
             vm.loginUser(binding.emailInput.text.toString(), binding.passwordInput.text.toString())
         }
 
-        binding.getUsersBtn.setOnClickListener {
-            vm.getUsersAsync()
-        }
-
-        binding.signInButton.setOnClickListener {
-            googleSignIn()
-        }
-
-        dialogDelegate.showDialog(
-            title = "Error" ,
-            contentText = "Hello smart connect",
-            mainButtonText = "OK",
-            mainButtonCallBack = {
-                it.dismiss()
-            }
-        )
+//        dialogDelegate.showDialog(
+//            title = "Error" ,
+//            contentText = "Hello smart connect",
+//            mainButtonText = "OK",
+//            mainButtonCallBack = {
+//                it.dismiss()
+//            }
+//        )
     }
 
     private fun initObservers() {
